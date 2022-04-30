@@ -12,14 +12,15 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 function getSeason(date) {
+  const invalidDate = new Error('Invalid date!')
   if (!date) return 'Unable to determine the time of year!'
   if (Object.prototype.toString.call(date) !== '[object Date]') {
-    throw new Error('Invalid date!')
+    throw invalidDate
   }
   try {
     isNaN(date)
   } catch {
-    throw new Error('Invalid date!')
+    throw invalidDate
   }
   if ([11, 0, 1].includes(date.getMonth())) return 'winter'
   if ([2, 3, 4].includes(date.getMonth())) return 'spring'
