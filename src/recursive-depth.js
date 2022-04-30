@@ -30,7 +30,7 @@ class DepthCalculator {
 
 const calculator = new DepthCalculator()
 
-console.log(calculator.calculateDepth([[[]], [[]], []]))
+console.log(calculator.calculateDepth([]))
 
 module.exports = {
   DepthCalculator
