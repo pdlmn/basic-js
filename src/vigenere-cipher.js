@@ -90,13 +90,18 @@ class VigenereCipheringMachine {
 
   decrypt(encryptedMsg, key) {
     const upperCaseMsg = encryptedMsg.toUpperCase()
-    const upperCaseKey = key.toUpperCase()
     const alphabet = this.generateAlphabet()
     const table = this.generateCipheringTable()
+    let upperCaseKey = key.toUpperCase()
     let decrypted = ''
 
+    if (upperCaseKey.length < upperCaseMsg.length) {
+      upperCaseKey = this.repeatString(upperCaseKey, upperCaseMsg.length)
+    }
+    console.log(upperCaseKey)
+
     for (let i = 0; i < upperCaseMsg.length; i++) {
-      let row = alphabet.indexOf(upperCaseKey)
+      let row = alphabet.indexOf(upperCaseKey[i])
       let column = table[row].indexOf(upperCaseMsg[i])
       if (column >= 0) {
         decrypted += alphabet[column]
@@ -111,7 +116,7 @@ class VigenereCipheringMachine {
 
 const cipheringMachine = new VigenereCipheringMachine()
 console.log(cipheringMachine.encrypt('attack all!', 'aabaac'))
-console.log(cipheringMachine.decrypt('buubdl bmm!', 'b'))
+console.log(cipheringMachine.decrypt('ATUACM AML!', 'aabaac'))
 console.log(cipheringMachine.repeatString('lmao', 6))
 
 module.exports = {
