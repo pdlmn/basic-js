@@ -43,15 +43,29 @@ class VigenereCipheringMachine {
     return table
   }
   encrypt(msg, key) {
+    const alphabet = this.generateAlphabet()
     const table = this.generateCipheringTable()
-    
+
+    let column = alphabet.indexOf(msg)
+    let row = alphabet.indexOf(key)
+
+    return table[column][row]
   }
   decrypt(encryptedMsg, key) {
+    const alphabet = this.generateAlphabet()
+    const table = this.generateCipheringTable()
+
+    let row = alphabet.indexOf(key)
+    let column = table[row].indexOf(encryptedMsg)
+
+    return alphabet[column]
   }
 }
 
 const cipheringMachine = new VigenereCipheringMachine()
-console.log(cipheringMachine.decrypt('T', 'E')) // должны быть X
+console.log(cipheringMachine.encrypt('T', 'E')) // должно быть X
+console.log(cipheringMachine.decrypt('X', 'E')) // должно быть T
+console.log(cipheringMachine.generateCipheringTable())
 
 
 module.exports = {
