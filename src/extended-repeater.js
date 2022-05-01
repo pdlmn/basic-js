@@ -47,8 +47,6 @@ function repeater(str, options) {
   return newStr
 }
 
-console.log(repeater('heh', { repeatTimes: 2, addition: '+', additionRepeatTimes: 2, separator: ', ', additionSeparator: '0' } ))
-
 module.exports = {
   repeater
 };

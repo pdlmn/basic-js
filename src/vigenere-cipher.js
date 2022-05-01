@@ -19,16 +19,40 @@ const { NotImplementedError } = require('../extensions/index.js');
  * reverseMachine.decrypt('AEIHQX SX DLLU!', 'alphonse') => '!NWAD TA KCATTA'
  * 
  */
+
 class VigenereCipheringMachine {
-  encrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  constructor(isReverse = true) {
+    this.isReverse = isReverse
   }
-  decrypt() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  generateAlphabet(key = 0) {
+    let alphabet = ''
+    let startingLetter = 65 + key
+    for (let i = 0; i < 26; i++) {
+      if (startingLetter >= 91) {
+        startingLetter = 65
+      }
+      alphabet += String.fromCharCode(startingLetter++)
+    }
+    return alphabet
+  }
+  generateCipheringTable() {
+    const table = []
+    for (let i = 0; i < 26; i++) {
+      table.push(this.generateAlphabet(i))
+    }
+    return table
+  }
+  encrypt(msg, key) {
+    const table = this.generateCipheringTable()
+    
+  }
+  decrypt(encryptedMsg, key) {
   }
 }
+
+const cipheringMachine = new VigenereCipheringMachine()
+console.log(cipheringMachine.decrypt('T', 'E')) // должны быть X
+
 
 module.exports = {
   VigenereCipheringMachine
