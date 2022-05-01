@@ -21,10 +21,21 @@ const { NotImplementedError } = require('../extensions/index.js');
  *   '.ru.yandex.music': 1,
  * }
  *
- */
-function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+  */
+
+
+function getDNSStats(domains) {
+  const stats = {}
+  for (let i = 0; i < domains.length; i++) {
+    domains[i].split('.').reverse().reduce((acc, cur) => {
+      acc += `.${cur}`
+      stats[acc]
+        ? stats[acc] += 1
+        : stats[acc] = 1
+      return acc
+    }, '')
+  }
+  return stats
 }
 
 module.exports = {
