@@ -24,6 +24,21 @@ class VigenereCipheringMachine {
   constructor(isReverse = true) {
     this.isReverse = isReverse
   }
+  
+  repeatString(str, until) {
+    let result = ''
+    let startingLetter = 0
+
+    for (let i = 0; i < until; i++) {
+      if (startingLetter > str.length - 1) {
+        startingLetter = 0
+      }
+      result += str[startingLetter++]
+    }
+
+    return result
+  }
+
   generateAlphabet(key = 0) {
     let alphabet = ''
     let startingLetter = 65 + key
@@ -90,10 +105,9 @@ class VigenereCipheringMachine {
 }
 
 const cipheringMachine = new VigenereCipheringMachine()
-console.log(cipheringMachine.encrypt('attack all!', 'b')) // должно быть BUUBDL BMM!
-console.log(cipheringMachine.decrypt('buubdl bmm!', 'b')) // должно быть attack
-console.log(cipheringMachine.generateCipheringTable())
-
+console.log(cipheringMachine.encrypt('attack all!', 'b'))
+console.log(cipheringMachine.decrypt('buubdl bmm!', 'b'))
+console.log(cipheringMachine.repeatString('lol', 6))
 
 module.exports = {
   VigenereCipheringMachine
