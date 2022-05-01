@@ -44,9 +44,18 @@ function generateCipheringTable() {
   return table
 }
 
+function reverseString(str) {
+  let reversed = ''
+  let last = str.length - 1
+  for (let i = last; i >= 0; i--) {
+    reversed += str[i]
+  }
+  return reversed
+}
+
 class VigenereCipheringMachine {
-  constructor(isReverse = true) {
-    this.isReverse = isReverse
+  constructor(isDirect = true) {
+    this.isDirect = isDirect
     this.alphabet = generateAlphabet()
     this.table = generateCipheringTable()
   }
@@ -66,6 +75,8 @@ class VigenereCipheringMachine {
   }
 
   encrypt(msg, key) {
+    if (!msg || !key) throw new Error('Incorrect arguments!')
+
     const upperCaseMsg = msg.toUpperCase()
     let upperCaseKey = key.toUpperCase()
     let encrypted = ''
@@ -86,10 +97,16 @@ class VigenereCipheringMachine {
       }
     }
 
+    if (!this.isDirect) {
+      encrypted = reverseString(encrypted)
+    }
+
     return encrypted
   }
 
   decrypt(encryptedMsg, key) {
+    if (!encryptedMsg || !key) throw new Error('Incorrect arguments!')
+
     const upperCaseMsg = encryptedMsg.toUpperCase()
     let upperCaseKey = key.toUpperCase()
     let decrypted = ''
@@ -110,14 +127,24 @@ class VigenereCipheringMachine {
       }
     }
 
+    if (!this.isDirect) {
+      decrypted = reverseString(decrypted)
+    }
+
     return decrypted
   }
 }
 
 const cipheringMachine = new VigenereCipheringMachine()
+const reverseMachine = new VigenereCipheringMachine(false)
 console.log(cipheringMachine.encrypt('attack all!', 'aabaac'))
 console.log(cipheringMachine.decrypt('UWJJW XAGWLNFM VNNNDXHVWWL :)', 'js'))
 console.log(cipheringMachine.repeatString('lmao', 6))
+console.log(reverseMachine.encrypt('attack all!', 'aabaac'))
+console.log(reverseMachine.decrypt('UWJJW XAGWLNFM VNNNDXHVWWL :)', 'js'))
+console.log(reverseMachine.repeatString('lmao', 6))
+
+console.log(reverseString('Heh! I am winning!'))
 
 module.exports = {
   VigenereCipheringMachine
