@@ -27,21 +27,27 @@ class VigenereCipheringMachine {
   generateAlphabet(key = 0) {
     let alphabet = ''
     let startingLetter = 65 + key
+
     for (let i = 0; i < 26; i++) {
       if (startingLetter >= 91) {
         startingLetter = 65
       }
       alphabet += String.fromCharCode(startingLetter++)
     }
+
     return alphabet
   }
+
   generateCipheringTable() {
     const table = []
+
     for (let i = 0; i < 26; i++) {
       table.push(this.generateAlphabet(i))
     }
+
     return table
   }
+
   encrypt(msg, key) {
     const upperCaseMsg = msg.toUpperCase()
     const upperCaseKey = key.toUpperCase()
@@ -61,6 +67,7 @@ class VigenereCipheringMachine {
 
     return encrypted
   }
+
   decrypt(encryptedMsg, key) {
     const upperCaseMsg = encryptedMsg.toUpperCase()
     const upperCaseKey = key.toUpperCase()
@@ -84,7 +91,7 @@ class VigenereCipheringMachine {
 
 const cipheringMachine = new VigenereCipheringMachine()
 console.log(cipheringMachine.encrypt('attack all!', 'b')) // должно быть BUUBDL BMM!
-console.log(cipheringMachine.decrypt('buubdl', 'b')) // должно быть attack
+console.log(cipheringMachine.decrypt('buubdl bmm!', 'b')) // должно быть attack
 console.log(cipheringMachine.generateCipheringTable())
 
 
