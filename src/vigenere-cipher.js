@@ -52,7 +52,11 @@ class VigenereCipheringMachine {
     for (let i = 0; i < msg.length; i++) {
       let column = alphabet.indexOf(upperCaseMsg[i])
       let row = alphabet.indexOf(upperCaseKey)
-      encrypted += table[column][row]
+      if (column >= 0) {
+        encrypted += table[column][row]
+      } else {
+        encrypted += upperCaseMsg[i]
+      }
     }
 
     return encrypted
@@ -71,7 +75,7 @@ class VigenereCipheringMachine {
 }
 
 const cipheringMachine = new VigenereCipheringMachine()
-console.log(cipheringMachine.encrypt('attack', 'b')) // должно быть BUUBDL 
+console.log(cipheringMachine.encrypt('attack all!', 'b')) // должно быть BUUBDL BMM!
 console.log(cipheringMachine.decrypt('x', 'E')) // должно быть T
 console.log(cipheringMachine.generateCipheringTable())
 
