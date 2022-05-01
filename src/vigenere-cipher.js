@@ -20,11 +20,37 @@ const { NotImplementedError } = require('../extensions/index.js');
  * 
  */
 
+function generateAlphabet(key = 0) {
+  let alphabet = ''
+  let startingLetter = 65 + key
+
+  for (let i = 0; i < 26; i++) {
+    if (startingLetter >= 91) {
+      startingLetter = 65
+    }
+    alphabet += String.fromCharCode(startingLetter++)
+  }
+
+  return alphabet
+}
+
+function generateCipheringTable() {
+  const table = []
+
+  for (let i = 0; i < 26; i++) {
+    table.push(generateAlphabet(i))
+  }
+
+  return table
+}
+
 class VigenereCipheringMachine {
   constructor(isReverse = true) {
     this.isReverse = isReverse
+    this.alphabet = generateAlphabet()
+    this.table = generateCipheringTable()
   }
-  
+
   repeatString(str, until) {
     let result = ''
     let startingLetter = 0
@@ -39,34 +65,8 @@ class VigenereCipheringMachine {
     return result
   }
 
-  generateAlphabet(key = 0) {
-    let alphabet = ''
-    let startingLetter = 65 + key
-
-    for (let i = 0; i < 26; i++) {
-      if (startingLetter >= 91) {
-        startingLetter = 65
-      }
-      alphabet += String.fromCharCode(startingLetter++)
-    }
-
-    return alphabet
-  }
-
-  generateCipheringTable() {
-    const table = []
-
-    for (let i = 0; i < 26; i++) {
-      table.push(this.generateAlphabet(i))
-    }
-
-    return table
-  }
-
   encrypt(msg, key) {
     const upperCaseMsg = msg.toUpperCase()
-    const alphabet = this.generateAlphabet()
-    const table = this.generateCipheringTable()
     let upperCaseKey = key.toUpperCase()
     let encrypted = ''
 
@@ -76,10 +76,10 @@ class VigenereCipheringMachine {
 
     let currentKeyLetter = 0
     for (let i = 0; i < msg.length; i++) {
-      let column = alphabet.indexOf(upperCaseMsg[i])
-      let row = alphabet.indexOf(upperCaseKey[currentKeyLetter])
+      let column = this.alphabet.indexOf(upperCaseMsg[i])
+      let row = this.alphabet.indexOf(upperCaseKey[currentKeyLetter])
       if (column >= 0) {
-        encrypted += table[column][row]
+        encrypted += this.table[column][row]
         currentKeyLetter++
       } else {
         encrypted += upperCaseMsg[i]
@@ -91,8 +91,6 @@ class VigenereCipheringMachine {
 
   decrypt(encryptedMsg, key) {
     const upperCaseMsg = encryptedMsg.toUpperCase()
-    const alphabet = this.generateAlphabet()
-    const table = this.generateCipheringTable()
     let upperCaseKey = key.toUpperCase()
     let decrypted = ''
 
@@ -102,10 +100,10 @@ class VigenereCipheringMachine {
 
     let currentKeyLetter = 0
     for (let i = 0; i < upperCaseMsg.length; i++) {
-      let row = alphabet.indexOf(upperCaseKey[currentKeyLetter])
-      let column = table[row].indexOf(upperCaseMsg[i])
+      let row = this.alphabet.indexOf(upperCaseKey[currentKeyLetter])
+      let column = this.table[row].indexOf(upperCaseMsg[i])
       if (column >= 0) {
-        decrypted += alphabet[column]
+        decrypted += this.alphabet[column]
         currentKeyLetter++
       } else {
         decrypted += upperCaseMsg[i]
