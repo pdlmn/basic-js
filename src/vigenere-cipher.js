@@ -43,28 +43,30 @@ class VigenereCipheringMachine {
     return table
   }
   encrypt(msg, key) {
+    const upperCaseMsg = msg.toUpperCase()
     const alphabet = this.generateAlphabet()
     const table = this.generateCipheringTable()
 
-    let column = alphabet.indexOf(msg)
+    let column = alphabet.indexOf(upperCaseMsg)
     let row = alphabet.indexOf(key)
 
     return table[column][row]
   }
   decrypt(encryptedMsg, key) {
+    const upperCaseMsg = encryptedMsg.toUpperCase()
     const alphabet = this.generateAlphabet()
     const table = this.generateCipheringTable()
 
     let row = alphabet.indexOf(key)
-    let column = table[row].indexOf(encryptedMsg)
+    let column = table[row].indexOf(upperCaseMsg)
 
     return alphabet[column]
   }
 }
 
 const cipheringMachine = new VigenereCipheringMachine()
-console.log(cipheringMachine.encrypt('T', 'E')) // должно быть X
-console.log(cipheringMachine.decrypt('X', 'E')) // должно быть T
+console.log(cipheringMachine.encrypt('t', 'E')) // должно быть X
+console.log(cipheringMachine.decrypt('x', 'E')) // должно быть T
 console.log(cipheringMachine.generateCipheringTable())
 
 
