@@ -23,10 +23,49 @@ const { NotImplementedError } = require('../extensions/index.js');
  *  [1, 1, 1]
  * ]
  */
-function minesweeper(/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+
+function replaceWithNums(matrix) {
+  const result = []
+  for (let i = 0; i < matrix.length; i++) {
+    const row = []
+    result.push(row)
+    for (let j = 0; j < matrix[i].length; j++) {
+      row.push(0)
+    }
+  }
+  return result
 }
+
+function minesweeper(matrix) {
+  const result = replaceWithNums(matrix)
+  for (let i = 0; i < matrix.length; i++) {
+    for (let j = 0; j < matrix[i].length; j++) {
+      if (matrix[i][j] === true) {
+        console.log(i, j)
+        if (result[i - 1] !== undefined) result[i - 1][j] += 1
+        if (result[i + 1] !== undefined) result[i + 1][j] += 1
+
+        if (result[i][j - 1] !== undefined) result[i][j - 1] += 1
+        if (result[i][j + 1] !== undefined) result[i][j + 1] += 1
+
+        if (result[i - 1] !== undefined && result[i - 1][j - 1] !== undefined) result[i - 1][j - 1] += 1
+        if (result[i - 1] !== undefined && result[i - 1][j + 1] !== undefined) result[i - 1][j + 1] += 1
+        if (result[i + 1] !== undefined && result[i + 1][j - 1] !== undefined) result[i + 1][j - 1] += 1
+        if (result[i + 1] !== undefined && result[i + 1][j + 1] !== undefined) result[i + 1][j + 1] += 1
+      }
+    }
+  } 
+  return result
+}
+
+const matrix = [
+  [true, false, false],
+  [false, true, false],
+  [false, false, false]
+]
+
+// console.log(replaceWithNums(matrix))
+console.table(minesweeper(matrix))
 
 module.exports = {
   minesweeper
